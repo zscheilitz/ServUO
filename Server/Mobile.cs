@@ -8552,9 +8552,10 @@ namespace Server
 		///     <c>
 		///         50 + (<see cref="Str" /> / 2)
 		///     </c>
+		///     from UOTD (Publish 13), and <see cref="Str" /> before it.
 		/// </summary>
 		[CommandProperty(AccessLevel.GameMaster)]
-		public virtual int HitsMax { get { return 50 + (Str / 2); } }
+		public virtual int HitsMax { get { return Core.UOTD ? 50 + (Str / 2) : Str; } }
 
 		/// <summary>
 		///     Gets or sets the current stamina of the Mobile. This value ranges from 0 to <see cref="StamMax" />, inclusive.

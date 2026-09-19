@@ -1980,6 +1980,11 @@ namespace Server.Mobiles
 				else
 				{
 					strBase = RawStr;
+
+					// (Str / 2) + 50 arrived with Publish 13 (UOTD). Before it, hit points were
+					// strength itself.
+					if (!Core.UOTD)
+						return strBase + strOffs;
 				}
 
 				return (strBase / 2) + 50 + strOffs;
