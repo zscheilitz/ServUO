@@ -3866,18 +3866,16 @@ namespace Server.Items
 			}
 
 			/* Compute lumberjacking bonus
-            * : 1% bonus for every 5 points of lumberjacking
+            * : 1% bonus for every 5 points of lumberjacking, from Publish 13 (UOTD)
+            * : 1% bonus for every 4 points of lumberjacking before it (Publish 5)
             * : +10% bonus at Grandmaster or higher
             */
 
 			if (Type == WeaponType.Axe)
 			{
-				double lumberValue = attacker.Skills[SkillName.Lumberjacking].Value;
-			    lumberValue = (lumberValue/5.0)/100.0;
-			    if (lumberValue > 0.2)
-			        lumberValue = 0.2;
+				double lumberValue = Math.Min(attacker.Skills[SkillName.Lumberjacking].Value, 100.0);
 
-				modifiers += lumberValue;
+				modifiers += (lumberValue / (Core.UOTD ? 5.0 : 4.0)) / 100.0;
 
 				if (lumberValue >= 100.0)
 				{
