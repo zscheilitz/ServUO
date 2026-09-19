@@ -34,6 +34,7 @@ namespace Server.Commands
             new Dictionary<string, Expansion>(StringComparer.OrdinalIgnoreCase)
             {
                 { "solenhives.xml", Expansion.LBR },
+                { "mondainslegacy.xml", Expansion.ML },
                 { "twistedweald.xml", Expansion.ML },
                 { "GravewaterLake.xml", Expansion.SA },
                 { "TheExodusEncounterQuest.xml", Expansion.SA },
