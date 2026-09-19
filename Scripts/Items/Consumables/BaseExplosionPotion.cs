@@ -143,7 +143,8 @@ namespace Server.Items
 			Effects.SendLocationEffect(loc, map, 0x36B0, 9, 10, 0, 0);
 			int alchemyBonus = 0;
 
-			if (direct)
+			// Alchemy has added to purple potion damage since Publish 16 (LBR).
+			if (direct && Core.LBR)
 			{
 				alchemyBonus = (int)(from.Skills.Alchemy.Value / (Core.AOS ? 5 : 10));
 			}
