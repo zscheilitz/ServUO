@@ -2060,7 +2060,11 @@ namespace Server.Items
 				damage = armor.OnHit(this, damage);
 			}
 
-			var virtualArmor = defender.ArmorRating;
+			// The struck piece has already absorbed above. What remains is natural and spell
+			// armour: VirtualArmor on creatures, VirtualArmorMod from Arch Protection and the like.
+			// ArmorRating is the wrong source here: it counts worn armour a second time on
+			// players and is always 0 on creatures, since only PlayerMobile overrides it.
+			int virtualArmor = defender.VirtualArmor + defender.VirtualArmorMod;
 
 			damage -= XmlAttach.OnArmorHit(attacker, defender, armorItem, this, damage);
 			damage -= XmlAttach.OnArmorHit(attacker, defender, shield, this, damage);
