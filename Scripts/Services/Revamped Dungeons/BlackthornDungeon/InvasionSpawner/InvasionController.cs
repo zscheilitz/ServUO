@@ -546,8 +546,8 @@ namespace Server.Engines.Blackthorn
 
             if (FelInstance == null)
             {
-                TramInstance = new InvasionController(Map.Felucca);
-                TramInstance.MoveToWorld(new Point3D(6359, 2570, 0), Map.Felucca);
+                FelInstance = new InvasionController(Map.Felucca);
+                FelInstance.MoveToWorld(new Point3D(6359, 2570, 0), Map.Felucca);
             }
 
             Defs = new Dictionary<City, InvasionDefinition>();
