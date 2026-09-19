@@ -955,11 +955,14 @@ namespace Server.Gumps
                     AddHtmlLocalized(195, 312, 160, 18, 1015328, 0x7FFF, false, false); // Female
                 }
 
-                // Change race
-                AddButton(245, 290, 0xFA5, 0xFA7, 6, GumpButtonType.Reply, 0);
-                AddHtmlLocalized(275, 292, 160, 18, 1072255, 0x7FFF, false, false); // Human
+                // Change race. Elves are a Mondain's Legacy race.
+                if (Core.ML)
+                {
+                    AddButton(245, 290, 0xFA5, 0xFA7, 6, GumpButtonType.Reply, 0);
+                    AddHtmlLocalized(275, 292, 160, 18, 1072255, 0x7FFF, false, false); // Human
 
-                AddHtmlLocalized(275, 312, 160, 18, 1072256, 0x421F, false, false); // Elf
+                    AddHtmlLocalized(275, 312, 160, 18, 1072256, 0x421F, false, false); // Elf
+                }
             }
             else
             {
@@ -1009,11 +1012,14 @@ namespace Server.Gumps
                     AddHtmlLocalized(195, 312, 160, 18, 1015328, 0x7FFF, false, false); // Female
                 }
 
-                // Change race
-                AddHtmlLocalized(275, 292, 160, 18, 1072255, 0x421F, false, false); // Human
+                // Change race. Elves are a Mondain's Legacy race.
+                if (Core.ML)
+                {
+                    AddHtmlLocalized(275, 292, 160, 18, 1072255, 0x421F, false, false); // Human
 
-                AddButton(245, 310, 0xFA5, 0xFA7, 6, GumpButtonType.Reply, 0);
-                AddHtmlLocalized(275, 312, 160, 18, 1072256, 0x7FFF, false, false); // Elf
+                    AddButton(245, 310, 0xFA5, 0xFA7, 6, GumpButtonType.Reply, 0);
+                    AddHtmlLocalized(275, 312, 160, 18, 1072256, 0x7FFF, false, false); // Elf
+                }
             }
 
             AddButton(10, 340, 0xFA5, 0xFA7, 0, GumpButtonType.Reply, 0);
@@ -1100,6 +1106,9 @@ namespace Server.Gumps
                     }
                 case 6: // Change race
                     {
+                        if (!Core.ML)
+                            break;
+
                         if (m_Vendor.Race == Race.Elf)
                             m_Vendor.Race = Race.Human;
                         else
