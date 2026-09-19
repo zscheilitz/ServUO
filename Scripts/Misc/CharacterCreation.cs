@@ -62,7 +62,7 @@ namespace Server.Misc
 			}
 
 			PackItem(new RedBook("a book", m.Name, 20, true));
-			PackItem(new Gold(1000)); // Starting gold can be customized here
+			PackItem(new Gold(StartingGold)); // Starting gold can be customized in StartingGold
 			PackItem(new Candle());
 
 			if (m.Race != Race.Gargoyle)
@@ -70,6 +70,11 @@ namespace Server.Misc
 			else
 				PackItem(new GargishDagger());
 		}
+
+		/// <summary>
+		/// A new character's gold: 100 before UOR, the later 1000 from it.
+		/// </summary>
+		public static int StartingGold { get { return Core.Expansion >= Expansion.UOR ? 1000 : 100; } }
 
 		private static void AddShirt(Mobile m, int shirtHue)
 		{
