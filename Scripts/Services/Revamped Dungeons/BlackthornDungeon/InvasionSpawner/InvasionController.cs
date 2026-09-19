@@ -538,13 +538,18 @@ namespace Server.Engines.Blackthorn
 
         public static void Initialize()
         {
-            if (TramInstance == null)
+            // The invasion belongs to the Blackthorn revamp, which CreateWorld only
+            // generates from SA.
+            if (!Core.SA)
+                Enabled = false;
+
+            if (Enabled && TramInstance == null)
             {
                 TramInstance = new InvasionController(Map.Trammel);
                 TramInstance.MoveToWorld(new Point3D(6359, 2570, 0), Map.Trammel);
             }
 
-            if (FelInstance == null)
+            if (Enabled && FelInstance == null)
             {
                 FelInstance = new InvasionController(Map.Felucca);
                 FelInstance.MoveToWorld(new Point3D(6359, 2570, 0), Map.Felucca);
