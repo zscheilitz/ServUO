@@ -3855,12 +3855,12 @@ namespace Server.Items
 
 			/* Compute anatomy modifier
             * : 1% bonus for every 5 points of anatomy
-            * : +10% bonus at Grandmaster or higher
+            * : +10% bonus at Grandmaster or higher, from Publish 13 (UOTD)
             */
 			double anatomyValue = attacker.Skills[SkillName.Anatomy].Value;
 			modifiers += ((anatomyValue / 5.0) / 100.0);
 
-			if (anatomyValue >= 100.0)
+			if (anatomyValue >= 100.0 && Core.UOTD)
 			{
 				modifiers += 0.1;
 			}
