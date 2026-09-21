@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Server;
 using Server.Mobiles;
@@ -214,12 +215,54 @@ namespace Server.Engines.Quests.RitualQuest
             return 0;
         }
 
+        /// <summary>
+        /// Puts a replacement in place when this one is removed: the quest needs a
+        /// target alive and it cannot be killed, since Damage returns 0.
+        ///
+        /// The replacement used to be created BEFORE base.Delete(), which is above the
+        /// `if (m_Deleted) return;` guard in Mobile.Delete. Two consequences:
+        ///
+        ///   * Calling Delete twice on one bag produced two replacements, where every
+        ///     other mobile treats the second call as a no-op.
+        ///   * On a shard below Stygian Abyss it multiplied without limit. Deserialize
+        ///     deletes the bag when !Core.SA, which is right -- the quest does not
+        ///     exist there, so neither should its target -- but each deletion minted a
+        ///     fresh bag, and a bag created this way is never itself deserialized and
+        ///     so is never deleted. The population DOUBLED on every restart.
+        ///
+        /// Observed on a T2A shard: 524,288 of them, which is 2^19 exactly -- nineteen
+        /// restarts from a single bag. Mobiles.bin had reached 350MB and the process
+        /// 10GB resident.
+        ///
+        /// So the guard comes first, and a replacement is made only where the quest
+        /// actually exists and nothing is left to stand in for it. That leaves the
+        /// Deserialize cleanup working as the one-time removal it was written to be.
+        /// </summary>
         public override void Delete()
         {
-            var bex = new BexilPunchingBag();
-            bex.MoveToWorld(new Point3D(403, 3391, 38), Map.TerMur);
+            if (Deleted)
+            {
+                return;
+            }
 
             base.Delete();
+
+            if (!Core.SA || Map.TerMur == null)
+            {
+                return;
+            }
+
+            var post = new Point3D(403, 3391, 38);
+            var region = Region.Find(post, Map.TerMur);
+
+            if (region != null
+                && region.GetEnumeratedMobiles().Any(m => m is BexilPunchingBag && !m.Deleted))
+            {
+                return;
+            }
+
+            var bex = new BexilPunchingBag();
+            bex.MoveToWorld(post, Map.TerMur);
         }
 
         public BexilPunchingBag(Serial serial) : base(serial)
