@@ -979,17 +979,24 @@ namespace Server.Engines.Craft
             Repair = Core.AOS;
             CanEnhance = Core.ML;
 
-            SetSubRes(typeof(Board), 1072643);
+            // The wood types are a Mondain's Legacy resource. Before ML the harvest
+            // tables never yield one -- Lumberjacking gates its whole resource list on
+            // Core.ML -- so offering the material list anyway lets a pre-ML player pick
+            // oak or yew from the menu and then never find a board of it anywhere.
+            if (Core.ML)
+            {
+                SetSubRes(typeof(Board), 1072643);
 
-            // Add every material you want the player to be able to choose from
-            // This will override the overridable material	TODO: Verify the required skill amount
-            AddSubRes(typeof(Board), 1072643, 00.0, 1044041, 1072652);
-            AddSubRes(typeof(OakBoard), 1072644, 65.0, 1044041, 1072652);
-            AddSubRes(typeof(AshBoard), 1072645, 75.0, 1044041, 1072652);
-            AddSubRes(typeof(YewBoard), 1072646, 85.0, 1044041, 1072652);
-            AddSubRes(typeof(HeartwoodBoard), 1072647, 95.0, 1044041, 1072652);
-            AddSubRes(typeof(BloodwoodBoard), 1072648, 95.0, 1044041, 1072652);
-            AddSubRes(typeof(FrostwoodBoard), 1072649, 95.0, 1044041, 1072652);
+                // Add every material you want the player to be able to choose from
+                // This will override the overridable material	TODO: Verify the required skill amount
+                AddSubRes(typeof(Board), 1072643, 00.0, 1044041, 1072652);
+                AddSubRes(typeof(OakBoard), 1072644, 65.0, 1044041, 1072652);
+                AddSubRes(typeof(AshBoard), 1072645, 75.0, 1044041, 1072652);
+                AddSubRes(typeof(YewBoard), 1072646, 85.0, 1044041, 1072652);
+                AddSubRes(typeof(HeartwoodBoard), 1072647, 95.0, 1044041, 1072652);
+                AddSubRes(typeof(BloodwoodBoard), 1072648, 95.0, 1044041, 1072652);
+                AddSubRes(typeof(FrostwoodBoard), 1072649, 95.0, 1044041, 1072652);
+            }
         }
     }
 }
